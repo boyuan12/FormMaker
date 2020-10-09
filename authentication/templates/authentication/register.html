@@ -1,17 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends "authentication/base.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <h1>Register</h1>
     <form method="POST">
         {% csrf_token %}
-        <input type="text" name="username" placeholder="Username"> <br>
-        <input type="password" name="password" placeholder="Password"> <br>
-        <input type="email" name="email" placeholder="Email"> <br>
-        <input type="submit">
+        <div>
+            <input type="text" name="username" placeholder="Username" class="form-control">
+        </div>
+        <br>
+        <div>
+            <input type="password" name="password" placeholder="Password" class="form-control">
+        </div>
+        <br>
+        <div>
+            <input type="email" name="email" placeholder="Email" class="form-control">
+        </div>
+        <br>
+        <div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
     </form>
-</body>
-</html>
+{% endblock %}
