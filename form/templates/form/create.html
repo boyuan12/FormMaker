@@ -1,0 +1,43 @@
+{% extends "form/base.html" %}
+
+{% block title %}
+    Create new form
+{% endblock %}
+
+{% block main %}
+    <h1>Form</h1>
+    <form method="POST" id="form">
+        {% csrf_token %}
+        <div>
+            <input type="text" name="form-name" placeholder="Form Name" class="form-control">
+        </div>
+        <br>
+        <div id="questions">
+
+        </div>
+        <br>
+        <button type="button" class="btn btn-primary" onclick="createNewQuestion();">Create a new question</button>
+        <button type="button" class="btn btn-success" onclick="submitForm();">Create this form</button>
+    </form>
+    <script>
+        var questionCount = 0;
+        function createNewQuestion() {
+            var DIV = document.createElement("div");
+            var BR = document.createElement("BR");
+            DIV.setAttribute("style", "border: 1px solid black");
+            DIV.innerHTML = `<input type="text" name="${questionCount}" placeholder="Enter your question prompt here: " class="form-control"><i>Short answered text</i>`;
+            document.getElementById("questions").appendChild(DIV);
+            document.getElementById("questions").appendChild(BR);
+            questionCount++;
+        }
+
+        function submitForm() {
+            var INPUT = document.createElement("input");
+            INPUT.setAttribute("type", "hidden");
+            INPUT.setAttribute("name", "questionCount")
+            INPUT.setAttribute("value", questionCount)
+            document.getElementById("form").appendChild(INPUT);
+            document.getElementById("form").submit();
+        }
+    </script>
+{% endblock %}
