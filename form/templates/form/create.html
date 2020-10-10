@@ -25,7 +25,9 @@
             var DIV = document.createElement("div");
             var BR = document.createElement("BR");
             DIV.setAttribute("style", "border: 1px solid black");
-            DIV.innerHTML = `<input type="text" name="${questionCount}" placeholder="Enter your question prompt here: " class="form-control"><i>Short answered text</i>`;
+            DIV.setAttribute("id", questionCount);
+            DIV.innerHTML = `<input type="text" name="${questionCount}" placeholder="Enter your question prompt here: " class="form-control"><i>Short answered text</i> <button type="button" onclick='deleteQuestion(${questionCount});' class='btn btn-danger'>Delete This Question</button>`;
+            BR.setAttribute("id", `br-${questionCount}`)
             document.getElementById("questions").appendChild(DIV);
             document.getElementById("questions").appendChild(BR);
             questionCount++;
@@ -38,6 +40,11 @@
             INPUT.setAttribute("value", questionCount)
             document.getElementById("form").appendChild(INPUT);
             document.getElementById("form").submit();
+        }
+
+        function deleteQuestion(name) {
+            document.getElementById(`br-${name}`).remove()
+            document.getElementById(name).remove()
         }
     </script>
 {% endblock %}
