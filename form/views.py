@@ -8,7 +8,10 @@ def create(request):
         Form(name=request.POST["form-name"]).save()
         f = Form.objects.filter(name=request.POST["form-name"])[::-1][0]
         for i in range(int(request.POST["questionCount"])):
-            InputField(label=request.POST[str(i)], form_id=f.id).save()
+            try:
+                InputField(label=request.POST[str(i)], form_id=f.id).save()
+            except:
+                pass
         return HttpResponse("success")
     else:
         return render(request, "form/create.html")
