@@ -1,4 +1,4 @@
-from django.contrib.auth.backends import RemoteUserBackend
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -31,6 +31,8 @@ def login_view(request):
             except:
                 pass
             login(request, user)
+            if request.POST.get("next"):
+                return HttpResponseRedirect(request.POST["next"])
             return HttpResponse("Hello! You logged in successfully!")
 
         try:
@@ -46,6 +48,8 @@ def login_view(request):
             except:
                 pass
             login(request, user)
+            if request.POST.get("next"):
+                return HttpResponseRedirect(request.POST["next"])
             return HttpResponse("Hello! You logged in successfully!")
 
         return HttpResponse("You entered wrong credentials")
