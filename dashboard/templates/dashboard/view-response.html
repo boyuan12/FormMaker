@@ -1,0 +1,19 @@
+{% extends "form/base.html" %}
+
+{% block title %}
+    Form
+{% endblock %}
+
+{% block main %}
+    <h1>View Data</h1>
+    <form>
+        {% for d in data %}
+            <div>
+                <p>{{ d.0 }}</p>
+                <input class="form-control" value="{{ d.1 }}" disabled>
+            </div>
+            <br>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary" disabled>Submit</button>
+    </form>
+{% endblock %}
