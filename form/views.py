@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='/auth/login/')
 def create(request):
     if request.method == "POST":
-        Form(name=request.POST["form-name"]).save()
+        Form(name=request.POST["form-name"], user_id=request.user.id).save()
         f = Form.objects.filter(name=request.POST["form-name"])[::-1][0]
         print(f)
         for i in range(int(request.POST["questionCount"])):

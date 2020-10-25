@@ -16,4 +16,14 @@
         {% endfor %}
         <button type="submit" class="btn btn-primary" disabled>Submit</button>
     </form>
+    <br><br><br>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li> -->
+          {% for r in rs %}
+            <li class="page-item"><a class="page-link" href="/d/{{ f.id }}/{{ r.0.id }}/">{{ r.1 }}</a></li>
+          {% endfor %}
+          <!-- <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
+        </ul>
+    </nav>
 {% endblock %}

@@ -10,6 +10,7 @@ class InputField(models.Model):
 class Form(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=100)
+    user_id = models.IntegerField()
 
 class Response(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
