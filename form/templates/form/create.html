@@ -12,16 +12,24 @@
             <input type="text" name="form-name" placeholder="Form Name" class="form-control">
         </div>
         <br>
-        <div id="questions">
-
-        </div>
+        <div id="questions"></div>
         <br>
-        <button type="button" class="btn btn-primary" onclick="createNewQuestion();">Create a new question</button>
+        <!-- <button type="button" class="btn btn-primary" onclick="createNewQuestion();">Create a new question</button> -->
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Create New Question
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#" onclick="createNewInputQuestion();">Short input</a>
+                <a class="dropdown-item" href="#" onclick="createMultipleChoiceQuestion();">Multiple Choice</a>
+            </div>
+        </div>
         <button type="button" class="btn btn-success" onclick="submitForm();">Create this form</button>
     </form>
     <script>
         var questionCount = 0;
-        function createNewQuestion() {
+        var optionCount = {}; // {"1": "1"}
+        function createNewInputQuestion() {
             var DIV = document.createElement("div");
             var BR = document.createElement("BR");
             DIV.setAttribute("style", "border: 1px solid black");
@@ -44,6 +52,55 @@
 
         function deleteQuestion(name) {
             document.getElementById(`br-${name}`).remove()
+            document.getElementById(name).remove()
+        }
+
+        function createMultipleChoiceQuestion() {
+            var DIV = document.createElement("div");
+            var BR = document.createElement("BR");
+            DIV.setAttribute("style", "border: 1px solid black");
+            DIV.setAttribute("id", questionCount);
+            DIV.innerHTML = `
+            <div id="olist-${questionCount}">
+                <div class="form-check">
+                    <div>
+                        <input class="form-check-input" type="radio" name="${questionCount}" id="${questionCount}-0" value="option1">
+                        <label class="form-check-label" for="${questionCount}-0">
+                            Default radio
+                        </label>
+                        <button type="button" onclick='removeChoice("${questionCount}-0")'>Remove Choice</button>
+                    </div>
+                </div>
+            </div>
+
+            <i>Multiple Choice</i> <button type="button" onclick='deleteQuestion(${questionCount});' class='btn btn-danger'>Delete This Question</button>
+            <button type="button" onclick='addChoice(${questionCount});' class='btn btn-primary'>Add an Option</button>`;
+            BR.setAttribute("id", `br-${questionCount}`)
+            document.getElementById("questions").appendChild(DIV);
+            document.getElementById("questions").appendChild(BR);
+            optionCount[`${questionCount}`] = 0;
+            questionCount++;
+        }
+
+        function addChoice(name) {
+            console.log(optionCount);
+            optionCount[name] = optionCount[name] + 1;
+            var ele = document.getElementById("olist-" + name);
+            var div = document.createElement("div");
+            div.setAttribute("class", "form-check");
+            div.innerHTML = `
+            <div>
+            <input class="form-check-input" type="radio" name="${name}" id="${name}-${optionCount[name]}" value="option1">
+            <label class="form-check-label" for="${name}-${optionCount[name]}">
+                Default radio
+            </label>
+            <button type="button" onclick='removeChoice("${name}-${optionCount[name]}")'>Remove Choice</button>
+            </div>
+            `
+            ele.appendChild(div);
+        }
+
+        function removeChoice(name) {
             document.getElementById(name).remove()
         }
     </script>
