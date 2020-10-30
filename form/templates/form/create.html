@@ -47,6 +47,20 @@
             INPUT.setAttribute("name", "questionCount")
             INPUT.setAttribute("value", questionCount)
             document.getElementById("form").appendChild(INPUT);
+            for (let i=0; i<Object.keys(optionCount).length; i++) {
+                var input = document.createElement("input");
+                input.setAttribute("type", "hidden");
+                input.setAttribute("name", `mul-${Object.keys(optionCount)[i]}`)
+                input.setAttribute("value", document.getElementById(`mul-${Object.keys(optionCount)[i]}`).value)
+                document.getElementById("form").appendChild(input);
+                for (let j=0; j<=optionCount[Object.keys(optionCount)[i]]; j++) {
+                    var input = document.createElement("input");
+                    input.setAttribute("type", "hidden");
+                    input.setAttribute("name", `mul-${Object.keys(optionCount)[i]}-op-${j}`)
+                    input.setAttribute("value", document.getElementById(`${Object.keys(optionCount)[i]}-${j}-val`).value);
+                    document.getElementById("form").appendChild(input);
+                }
+            }
             document.getElementById("form").submit();
         }
 
@@ -62,11 +76,12 @@
             DIV.setAttribute("id", questionCount);
             DIV.innerHTML = `
             <div id="olist-${questionCount}">
+                <input type="text" id="mul-${questionCount}" placeholder="Enter your question prompt here: " class="form-control">
                 <div class="form-check">
                     <div>
                         <input class="form-check-input" type="radio" name="${questionCount}" id="${questionCount}-0" value="option1">
                         <label class="form-check-label" for="${questionCount}-0">
-                            Default radio
+                            <input type="text" placeholder="value" id="${questionCount}-0-val">
                         </label>
                         <button type="button" onclick='removeChoice("${questionCount}-0")'>Remove Choice</button>
                     </div>
@@ -92,7 +107,7 @@
             <div>
             <input class="form-check-input" type="radio" name="${name}" id="${name}-${optionCount[name]}" value="option1">
             <label class="form-check-label" for="${name}-${optionCount[name]}">
-                Default radio
+                <input type="text" placeholder="value" id="${name}-${optionCount[name]}-val">
             </label>
             <button type="button" onclick='removeChoice("${name}-${optionCount[name]}")'>Remove Choice</button>
             </div>

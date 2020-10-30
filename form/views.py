@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='/auth/login/')
 def create(request):
     if request.method == "POST":
+        print(request.POST)
+        return HttpResponse("")
         Form(name=request.POST["form-name"], user_id=request.user.id).save()
         f = Form.objects.filter(name=request.POST["form-name"])[::-1][0]
         print(f)
