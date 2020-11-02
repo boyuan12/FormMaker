@@ -61,6 +61,11 @@
                     document.getElementById("form").appendChild(input);
                 }
             }
+            var INPUT = document.createElement("INPUT");
+            INPUT.setAttribute("type", "hidden");
+            INPUT.setAttribute("name", "muls");
+            INPUT.setAttribute("value", JSON.stringify(optionCount));
+            document.getElementById("form").appendChild(INPUT);
             document.getElementById("form").submit();
         }
 
