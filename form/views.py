@@ -16,7 +16,7 @@ def create(request):
             for i in muls:
                 # create a new MC question, with label request.POST[mul-i]
                 label = request.POST["mul-" + i]
-                MultipleChoiceField(label=label, form_id=f.id).save()
+                MultipleChoiceField(label=label, form_id=f.id, order=i).save()
                 m = MultipleChoiceField.objects.filter(label=label)[::-1][0]
                 option_count = muls[i]
                 for j in range(option_count):
@@ -29,7 +29,7 @@ def create(request):
         # Short Input
         for i in range(int(request.POST["questionCount"])):
             try:
-                InputField(label=request.POST[str(i)], form_id=f.id).save()
+                InputField(label=request.POST[str(i)], form_id=f.id, order=i).save()
             except Exception as e:
                 print(str(e))
         return HttpResponse("success")
@@ -43,20 +43,32 @@ def view_form(request, form_id):
     except:
         return HttpResponse("404 Not Found")
 
+    # [[0, InputField], [1, MultipleChoiceField, [MultipleChoiceOption...]]] 0 input; 1 multiple
+    questions = []
     inputs = InputField.objects.filter(form_id=f.id)
-    print(inputs)
+    multiple = MultipleChoiceField.objects.filter(form_id=f.id)
+
+    for i in inputs:
+        questions.insert(i.order, [0, i])
+
+    for i in multiple:
+        options = MultipleChoiceOption.objects.filter(question_id=i.id)
+        ops = [o for o in options]
+        questions.insert(i.order, [1, i, ops])
 
     return render(request, "form/view-form.html", {
         "form_id": form_id,
-        "inputs": inputs
+        "questions": questions
     })
 
 
 def submit_form(request, form_id):
-    Response(user_id=request.user.id, form_id=form_id).save()
-    r = Response.objects.filter(user_id=request.user.id, form_id=form_id)[::-1][0]
-    for i in request.POST:
-        if i == "csrfmiddlewaretoken":
-            continue
-        ResponseQuestion(question_id=i, response=request.POST[i], response_id=r.id).save()
-    return HttpResponse("success")
+    print(request.POST)
+    return HttpResponse("")
+    # Response(user_id=request.user.id, form_id=form_id).save()
+    # r = Response.objects.filter(user_id=request.user.id, form_id=form_id)[::-1][0]
+    # for i in request.POST:
+    #     if i == "csrfmiddlewaretoken":
+    #         continue
+    #     ResponseQuestion(question_id=i, response=request.POST[i], response_id=r.id).save()
+    # return HttpResponse("success")

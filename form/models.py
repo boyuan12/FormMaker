@@ -3,6 +3,7 @@ import uuid
 
 # Create your models here.
 class InputField(models.Model):
+    order = models.IntegerField()
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     label = models.CharField(max_length=100)
     form_id = models.UUIDField()
@@ -23,6 +24,7 @@ class ResponseQuestion(models.Model):
     response_id = models.UUIDField()
 
 class MultipleChoiceField(models.Model):
+    order = models.IntegerField()
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     label = models.CharField(max_length=100)
     form_id = models.UUIDField()
