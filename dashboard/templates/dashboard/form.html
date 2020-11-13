@@ -10,11 +10,22 @@
     <div class="container">
         <h1 style="text-align: center;">{{ f.name }}</h1> <span><a href="/d/{{ f.id }}/submissions">View Submissions</a></span>
         {% for q in questions %}
-            <div style="border: 1px solid black">
-                <p>{{ q.label }}</p>
-                <br>
-                <i>Short answer</i>
-            </div>
+            {% if q.0 == 0 %}
+                <div style="border: 1px solid black">
+                    <p>{{ q.1.label }}</p>
+                    <br>
+                    <i>Short answer</i>
+                </div>
+            {% elif q.0 == 1 %}
+                <div style="border: 1px solid black">
+                    <p>{{ q.1.label }}</p> <!-- q[1].label -->
+                    <br>
+                    {% for o in q.2 %}
+                        <label>{{ o.label }}</label> <br>
+                    {% endfor %}
+                    <i>Multiple Choice</i>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 </body>

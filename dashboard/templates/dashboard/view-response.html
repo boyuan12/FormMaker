@@ -9,8 +9,18 @@
     <form>
         {% for d in data %}
             <div>
-                <p>{{ d.0 }}</p>
-                <input class="form-control" value="{{ d.1 }}" disabled>
+                <p>{{ d.1 }}</p>
+                {% if d.0 == 0 %}
+                    <input class="form-control" value="{{ d.2 }}" disabled>
+                {% elif d.0 == 1 %}
+                    {% for i in d.3 %}
+                        {% if i.id == d.2.id %}
+                            <input type="radio" checked disabled> {{ i.label }} <br>
+                        {% else %}
+                            <input type="radio" disabled> {{ i.label }} <br>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
             <br>
         {% endfor %}

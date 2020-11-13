@@ -10,6 +10,7 @@ def create(request):
     if request.method == "POST":
         Form(name=request.POST["form-name"], user_id=request.user.id).save()
         f = Form.objects.filter(name=request.POST["form-name"])[::-1][0]
+        print(json.loads(request.POST["muls"]))
 
         try:
             muls = json.loads(request.POST["muls"])
@@ -19,7 +20,8 @@ def create(request):
                 MultipleChoiceField(label=label, form_id=f.id, order=i).save()
                 m = MultipleChoiceField.objects.filter(label=label)[::-1][0]
                 option_count = muls[i]
-                for j in range(option_count):
+                for j in range(option_count + 1):
+                    print(j)
                     # create option
                     op_label = f"mul-{i}-op-{j}"
                     MultipleChoiceOption(label=request.POST[op_label], question_id=m.id).save()
@@ -63,12 +65,11 @@ def view_form(request, form_id):
 
 
 def submit_form(request, form_id):
-    print(request.POST)
-    return HttpResponse("")
-    # Response(user_id=request.user.id, form_id=form_id).save()
-    # r = Response.objects.filter(user_id=request.user.id, form_id=form_id)[::-1][0]
-    # for i in request.POST:
-    #     if i == "csrfmiddlewaretoken":
-    #         continue
-    #     ResponseQuestion(question_id=i, response=request.POST[i], response_id=r.id).save()
-    # return HttpResponse("success")
+    # print(request.POST)
+    Response(user_id=request.user.id, form_id=form_id).save()
+    r = Response.objects.filter(user_id=request.user.id, form_id=form_id)[::-1][0]
+    for i in request.POST:
+        if i == "csrfmiddlewaretoken":
+            continue
+        ResponseQuestion(question_id=i, response=request.POST[i], response_id=r.id).save()
+    return HttpResponse("success")
